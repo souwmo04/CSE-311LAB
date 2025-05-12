@@ -1,0 +1,60 @@
+Name: Fahim Foysal
+Id: 2233594642
+Section: 04
+
+1.Write a SQL query to find each employee’s first_name, last_name, designation, dept_name, and the district they work in. Ensure results are sorted by district alphabetically.  
+=
+SELECT e.first_name, e.last_name, e.designation, e.designation, d.dept_name d.district 
+FROM employee e
+JOIN departments d ON e.dept_id = d.dept_id
+ORDER BY e.district ;
+
+2.List each employee’s emp_id, first_name, last_name, dept_name, and the project_name of projects they worked on during the year 2019.
+=
+SELECT e.emp_id, e.first_name, e.last_name, d.dept_name, p.project_name
+FROM employee e
+JOIN departments d ON e.dept_id = d.dept_id
+JOIN takes e ON e.project_id = p.projectid
+JOIN course w ON e.project_id = w.project_id
+WHERE w.year = 2019;
+
+3.Write a query to display each dept_name and the average hours_worked of employees per department who worked on projects in 2021. Include only departments with an average hours_worked greater than 50, and sort by dept_name alphabetically.  
+=
+SELECT d.dept_name, AVG(t.(w.hours_work) AS avg_hours_worked
+FROM departments d 
+JOIN employee e ON d.dept_id = e.dept_id
+JOIN works_on w On w.emp_id=e.emp_id
+WHERE w.year = 2021
+GROUP BY d.dept_name
+HAVING AVG(w.hours_work) > 50
+ORDER BY d.dept_name DESC;
+
+4.Find the dept_name, designation, and the total salary paid to employees per designation in each department. Join employees and departments, then group results by dept_name and designation. Show the total salary in descending order of dept_name.
+=
+SELECT d.dept_name, e.designation, SUM(e.salary) AS total_salary
+FROM employee e
+JOIN department d ON e.dept_id = d.dept_id
+GROUP BY d.dept_name, e.designation
+ORDER BY total_salary ASC;
+
+5.Create a view named employee_project_hours that shows each department’s dept_name, each project’s project_name, and the average hours_worked of employees who have worked on that project. Only include projects where the average hours_worked is above 40.  
+
+=
+CREATE VIEW employee_project_hours  AS
+SELECT d.dept_name, p.project_name, AVG(w.hours_work) AS avg_hours_worked
+FROM takes e
+JOIN projets p ON p.project_id = w.project_id
+JOIN employee e ON e.dept_id = d.dept_id
+GROUP BY d.dept_name, p.project_name
+HAVING AVG(t.grade_point) > 40;
+
+6.Write a SQL statement to find the emp_id, first_name, last_name, project_id, and dept_name of employees who are assigned to the same department as an employee with the designation 'Manager'.   
+=
+SELECT e1.emp_id ,e1.first_name ,e1.last_name,p.project_id,d.deartment_name
+FOM departmens d
+JOIN projects p ON d.dept_id=p.dept_id
+join employes e1 on e1.dept_id=d.dept_id
+where exists(
+select 1 from employee e2
+where e1.emp_id=e2.emp_id ANd e2.designaton ='manager'
+);

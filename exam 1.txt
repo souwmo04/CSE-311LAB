@@ -1,0 +1,46 @@
+Name:Fahim Foysal
+Id:2233594642
+
+1.Write a SQL statement to find the student_id, first_name, and age of all students who are older than 18 years and whose first_name starts with 'A' or ends with 'y'.
+
+SELECT student_id, first_name, age
+FROM students
+WHERE age>18 AND first_name LIKE "A%" OR first_name LIKE "%Y"
+
+2.Write a SQL statement to find the student_id, full name (concatenating first_name and last_name with a space), and age of all students whose age is between 19 and 23. Sort the result by age in descending order.
+
+SELECT student_id, CONCAT(first_name,"",last_name),age
+FROM students
+WHERE age IN BETWEEN 19and 23
+ORDEr BY age DESC
+
+3.Write a SQL statement to display the course_id and title of all courses where the title has more than 15 characters.
+
+SELECT course_id,title
+FROM courses
+WHERE length(title)>15
+
+4.Write a SQL statement to find the student_id, first_name, and gpa of students whose GPA is greater than the average GPA of all students in the students table. Sort the results by gpa in descending order.
+
+SELECT student_id, first_name, gpa
+FROM STUDENTS
+WHERE gpa> (SELECT AVG(gpa)FROM students)
+ORDER BY gpa DESC
+
+5.Write a SQL statement to find the total number of students and their average age for each department. Only include departments where the total number of students is greater than 8.
+
+SELECT department_id, count(student.id) AS total student,
+AVG(age) AS avrg_age
+FROM students
+GROUP By department_id
+HAVING avg_age>8
+
+6.Write a SQL statement to display the semester and the total number of students who have achieved a letter_grade of 'B' in that semester. Only include semesters where more than 12 students have received a 'B'. Sort the results by student_count in descending order.
+
+Select semester ,COUNT(student.id) AS total_student
+FRom takes
+where letter_grade ='B'
+Group by semester
+HAving total_student >12
+ORDER By total_student DESC
+
